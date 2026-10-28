@@ -31,4 +31,634 @@ a{color:var(--navy2)}
 .contact-list li{display:flex;gap:.75rem;margin-bottom:.75rem}.contact-list i{color:var(--goldd)}
 .site-footer{background:var(--navy);color:#d5deec;border-top:4px solid var(--gold)}
 .site-footer a{color:#fff}
+.giaccs-stats {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.giaccs-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.giaccs-stat-card {
+    position: relative;
+    min-height: 185px;
+    padding: 28px 20px 24px;
+    box-sizing: border-box;
+    text-align: center;
+    background: #F6FAF6;
+    border: 1px solid #c9a227;
+    border-radius: 12px;
+    box-shadow: 0 7px 20px rgba(3,75,11,.12);
+    transition: transform .3s ease, box-shadow .3s ease;
+    overflow: hidden;
+}
+
+.giaccs-stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #c9a227;
+}
+
+.giaccs-stat-card:nth-child(even)::before {
+    background: ##c9a227;
+}
+
+.giaccs-stat-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 14px 28px rgba(3,75,11,.18);
+}
+
+
+/* Icon */
+.giaccs-stat-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #0b2545;
+    color: #FFFFFF;
+    font-size: 26px;
+    line-height: 1;
+}
+
+.giaccs-stat-card:nth-child(even) .giaccs-stat-icon {
+    background: #0b2545;
+    color: #0b2545;
+}
+
+
+/* Number */
+.giaccs-stat-number {
+    margin: 0;
+    font-size: 40px;
+    line-height: 1.1;
+    font-weight: 800;
+    color: #0b2545;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* Plus */
+.giaccs-stat-plus {
+    font-size: 32px;
+    font-weight: 800;
+    color: #D8AD3D;
+}
+
+
+/* Title */
+.giaccs-stat-title {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: #1d2433;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+
+/* Tablet */
+@media (max-width: 991px) {
+
+    .giaccs-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .giaccs-stat-card {
+        min-height: 175px;
+    }
+}
+
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .giaccs-stats {
+        padding: 8px 0;
+    }
+
+    .giaccs-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+    }
+
+    .giaccs-stat-card {
+        min-height: 155px;
+        padding: 21px 10px 18px;
+        border-radius: 9px;
+    }
+
+    .giaccs-stat-icon {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 9px;
+        font-size: 20px;
+    }
+
+    .giaccs-stat-number {
+        font-size: 30px;
+    }
+
+    .giaccs-stat-plus {
+        font-size: 24px;
+    }
+
+    .giaccs-stat-title {
+        margin-top: 8px;
+        font-size: 11px;
+        letter-spacing: .2px;
+    }
+}
+
+
+/* =========================================================
+   MAIN TICKER
+========================================================= */
+
+#giaccs-news-ticker{
+    width:100%;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+
+/* =========================================================
+   TICKER BAR
+========================================================= */
+
+.giaccs-ticker-bar{
+
+    width:100%;
+
+    height:48px;
+
+    display:flex;
+    align-items:center;
+
+    background:black;
+
+    border-top:2px solid ##c9a227;
+    border-bottom:2px solid ##c9a227;
+
+    overflow:hidden;
+
+    box-sizing:border-box;
+
+    box-shadow:
+        0 3px 10px rgba(0,0,0,.10);
+}
+
+
+/* =========================================================
+   LEFT LABEL
+========================================================= */
+
+.giaccs-ticker-label{
+
+    height:100%;
+
+    min-width:145px;
+
+    padding:0 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#FFFFFF;
+
+    color:#1d2433;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+    white-space:nowrap;
+
+    position:relative;
+
+    z-index:5;
+
+    box-sizing:border-box;
+}
+
+
+/* =========================================================
+   GOLD SEPARATOR
+========================================================= */
+
+.giaccs-ticker-label::after{
+
+    content:"";
+
+    position:absolute;
+
+    right:-1px;
+    top:0;
+
+    width:2px;
+    height:100%;
+
+    background:#D8AD3D;
+}
+
+
+/* =========================================================
+   MOVING WINDOW
+========================================================= */
+
+.giaccs-ticker-window{
+
+    flex:1;
+
+    height:100%;
+
+    overflow:hidden;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+}
+
+
+/* =========================================================
+   MOVING TRACK
+========================================================= */
+
+.giaccs-ticker-track{
+
+    display:flex;
+    align-items:center;
+
+    width:max-content;
+
+    height:100%;
+
+    animation:
+        giaccsTickerMove 34s linear infinite;
+
+    will-change:transform;
+}
+
+
+/* =========================================================
+   PAUSE ON HOVER
+========================================================= */
+
+.giaccs-ticker-window:hover
+.giaccs-ticker-track{
+
+    animation-play-state:paused;
+}
+
+
+/* =========================================================
+   EACH POST
+========================================================= */
+
+.giaccs-ticker-item{
+
+    display:flex;
+    align-items:center;
+
+    height:100%;
+
+    flex-shrink:0;
+
+    padding:0 35px;
+
+    box-sizing:border-box;
+}
+
+
+/* =========================================================
+   STAR
+========================================================= */
+
+.giaccs-ticker-star{
+
+    color:#D8AD3D;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    margin-right:9px;
+
+    line-height:1;
+}
+
+
+/* =========================================================
+   POST LINK
+========================================================= */
+
+.giaccs-ticker-item a{
+
+    color:#FFFFFF !important;
+
+    text-decoration:none !important;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    letter-spacing:.1px;
+
+    white-space:nowrap;
+
+    transition:
+        color .2s ease;
+}
+
+
+/* =========================================================
+   POST HOVER
+========================================================= */
+
+.giaccs-ticker-item a:hover{
+
+    color:#D8AD3D !important;
+
+}
+
+
+/* =========================================================
+   SEPARATOR
+========================================================= */
+
+.giaccs-ticker-separator{
+
+    width:1px;
+
+    height:22px;
+
+    background:rgba(255,255,255,.30);
+
+    margin:0 5px;
+
+    flex-shrink:0;
+}
+
+
+/* =========================================================
+   OLD POSTS LINK
+========================================================= */
+
+.giaccs-ticker-old-posts{
+
+    display:flex;
+
+    align-items:center;
+
+    height:100%;
+
+    flex-shrink:0;
+
+    padding:0 35px;
+}
+
+
+/* GOLD STAR */
+
+.giaccs-ticker-old-posts .old-star{
+
+    color:#D8AD3D;
+
+    font-size:15px;
+
+    margin-right:9px;
+
+    line-height:1;
+}
+
+
+/* OLD POSTS LINK */
+
+.giaccs-ticker-old-posts a{
+
+    color:#D8AD3D !important;
+
+    text-decoration:none !important;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    white-space:nowrap;
+
+    transition:
+        color .2s ease,
+        text-shadow .2s ease;
+}
+
+
+/* =========================================================
+   OLD POSTS HOVER
+========================================================= */
+
+.giaccs-ticker-old-posts a:hover{
+
+    color:#FFFFFF !important;
+
+    text-shadow:
+        0 0 6px rgba(216,173,61,.65);
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.giaccs-ticker-loading{
+
+    color:#FFFFFF;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    padding-left:25px;
+
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.giaccs-ticker-error{
+
+    color:#FFFFFF;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    padding-left:25px;
+
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes giaccsTickerMove{
+
+    0%{
+
+        transform:translateX(0);
+
+    }
+
+    100%{
+
+        transform:translateX(-50%);
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+    .giaccs-ticker-bar{
+
+        height:44px;
+
+    }
+
+
+    .giaccs-ticker-label{
+
+        min-width:105px;
+
+        padding:0 10px;
+
+        font-size:12px;
+
+    }
+
+
+    .giaccs-ticker-item{
+
+        padding:0 22px;
+
+    }
+
+
+    .giaccs-ticker-item a{
+
+        font-size:13px;
+
+        font-weight:600;
+
+    }
+
+
+    .giaccs-ticker-star{
+
+        font-size:13px;
+
+        margin-right:7px;
+
+    }
+
+
+    .giaccs-ticker-old-posts{
+
+        padding:0 22px;
+
+    }
+
+
+    .giaccs-ticker-old-posts a{
+
+        font-size:13px;
+
+    }
+
+
+    .giaccs-ticker-track{
+
+        animation-duration:30s;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:420px){
+
+    .giaccs-ticker-label{
+
+        min-width:92px;
+
+        padding:0 8px;
+
+        font-size:11px;
+
+    }
+
+
+    .giaccs-ticker-item{
+
+        padding:0 18px;
+
+    }
+
+
+    .giaccs-ticker-item a{
+
+        font-size:12px;
+
+        font-weight:600;
+
+    }
+
+
+    .giaccs-ticker-old-posts{
+
+        padding:0 18px;
+
+    }
+
+
+    .giaccs-ticker-old-posts a{
+
+        font-size:12px;
+
+    }
+
+}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}

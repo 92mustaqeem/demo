@@ -55,3 +55,81 @@ document.addEventListener("DOMContentLoaded", () => {
     status.textContent = "Your email app should open with a draft.";
   });
 });
+
+// navbar toggle
+
+    // Backdrop behind the Downloads dropdown
+const dlToggle = document.getElementById("downloadsMenu");
+if (dlToggle) {
+  const backdrop = document.createElement("div");
+  backdrop.className = "nav-backdrop";
+  document.body.appendChild(backdrop);
+
+  const dropdown = bootstrap.Dropdown.getOrCreateInstance(dlToggle);
+  const holder = dlToggle.parentElement;           // the <li class="dropdown">
+  holder.addEventListener("show.bs.dropdown", () => backdrop.classList.add("show"));
+  holder.addEventListener("hide.bs.dropdown", () => backdrop.classList.remove("show"));
+  backdrop.addEventListener("click", () => dropdown.hide());   // click outside to close
+}
+
+// Gallery Script
+
+document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.getElementById("gal-grid"), filters = document.getElementById("gal-filters"), count = document.getElementById("gal-count");
+  const modalEl = document.getElementById("lightbox"), modal = new bootstrap.Modal(modalEl);
+  let shown = [], cur = 0;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+  const render = cat => {
+    shown = PHOTOS.filter(p => cat === "All" || p.cat === cat);
+    grid.innerHTML = shown.map((p, i) => `<div class="col-6 col-md-4"><button class="gal-item" data-i="${i}" aria-label="Open photo: ${esc(p.title)}">
+      <img src="${esc(p.src)}" alt="${esc(p.title)}" loading="lazy"><span class="gal-cap">${esc(p.title)}<br><small>${esc(p.cat)}</small></span></button></div>`).join("")
+      || '<p class="col-12">No photos in this category yet.</p>';
+    count.textContent = shown.length + " photo(s) shown";
+  };
+  const cats = ["All", ...new Set(PHOTOS.map(p => p.cat))];
+  filters.innerHTML = cats.map((c, i) => `<button class="btn${i ? "" : " active"}" data-cat="${esc(c)}" aria-pressed="${i === 0}">${esc(c)}</button>`).join("");
+  filters.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    filters.querySelectorAll("button").forEach(x => { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
+    b.classList.add("active"); b.setAttribute("aria-pressed", "true"); render(b.dataset.cat);
+  });
+
+  const show = i => {
+    cur = (i + shown.length) % shown.length; const p = shown[cur];
+    document.getElementById("lb-img").src = p.src; document.getElementById("lb-img").alt = p.title;
+    document.getElementById("lb-title").textContent = p.title + " (" + p.cat + ")";
+    document.getElementById("lb-count").textContent = (cur + 1) + " of " + shown.length;
+  };
+  grid.addEventListener("click", e => { const b = e.target.closest(".gal-item"); if (b) { show(+b.dataset.i); modal.show(); } });
+  document.getElementById("lb-prev").onclick = () => show(cur - 1);
+  document.getElementById("lb-next").onclick = () => show(cur + 1);
+  modalEl.addEventListener("keydown", e => { if (e.key === "ArrowLeft") show(cur - 1); if (e.key === "ArrowRight") show(cur + 1); });
+  render("All");
+});
+
+//download script
+
+document.addEventListener("DOMContentLoaded", () => {
+  const box = document.getElementById("dl-sections"), search = document.getElementById("dl-search");
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const fmt = d => new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+
+  const item = f => `<div class="dl-item"><i class="bi bi-file-earmark-pdf dl-icon" aria-hidden="true"></i>
+    <div class="dl-body"><h3 class="h6 mb-1">${esc(f.title)}</h3><div class="dl-meta">${f.date ? fmt(f.date) + " &bull; " : ""}${esc(f.size || "")}</div>
+    ${f.desc ? `<div class="small">${esc(f.desc)}</div>` : ""}</div>
+    ${f.file ? `<a class="btn btn-navy" href="${esc(f.file)}" download target="_blank" rel="noopener noreferrer"><i class="bi bi-download"></i> Download</a>`
+             : `<span class="badge text-bg-secondary">Not uploaded yet</span>`}</div>`;
+
+  const render = () => {
+    const q = search.value.trim().toLowerCase();
+    box.innerHTML = Object.entries(SECTIONS).map(([id, s]) => {
+      const list = FILES.filter(f => f.cat === id && (f.title + " " + (f.desc || "")).toLowerCase().includes(q));
+      return `<section class="dl-section" id="${id}"><h2 class="h4"><i class="bi ${s.icon} text-gold-d" aria-hidden="true"></i>${s.name}</h2>
+        <p class="text-muted">${s.note}</p>${list.length ? list.map(item).join("") : `<p class="fst-italic">${q ? "No files match your search." : "No files have been added yet."}</p>`}</section>`;
+    }).join("");
+  };
+  search.addEventListener("input", render); render();
+  // Rendering happens after load, so jump to the section named in the URL (e.g. Downloads.html#forms)
+  if (location.hash) { const t = document.querySelector(location.hash); if (t) t.scrollIntoView(); }
+});
